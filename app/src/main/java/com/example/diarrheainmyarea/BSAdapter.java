@@ -12,12 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BSAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
-    String str1[],str2[],str3[];
-    public BSAdapter(Context context,String str1[],String str2[],String str3[]){
+    String str1[];
+    public BSAdapter(Context context,String str1[]){
         this.context=context;
         this.str1=str1;
-        this.str2=str2;
-        this.str3=str3;
+
     }
     @NonNull
     @Override
@@ -30,9 +29,7 @@ public class BSAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((bsdata)holder).title.setText(str1[position]);
-        ((bsdata)holder).areacount.setText(str2[position]);
-        ((bsdata)holder).citycount.setText(str3[position]);
+        ((bsdata)holder).tv1.setText(str1[position]);
     }
 
     @Override
@@ -41,12 +38,10 @@ public class BSAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public class bsdata extends RecyclerView.ViewHolder {
-        TextView title,areacount,citycount;
+        TextView tv1;
         public bsdata(@NonNull View itemView) {
             super(itemView);
-            title=itemView.findViewById(R.id.areaname);
-            areacount=itemView.findViewById(R.id.areacount);
-            citycount=itemView.findViewById(R.id.citycount);
+            tv1=itemView.findViewById(R.id.tv1);
         }
     }
 }
