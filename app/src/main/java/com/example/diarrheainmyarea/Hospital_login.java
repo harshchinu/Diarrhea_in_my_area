@@ -66,7 +66,7 @@ public class Hospital_login extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
 
-                            Intent intent = new Intent(Hospital_login.this, HospialMain.class);
+                            Intent intent = new Intent(Hospital_login.this, HospitalMain.class);
                             startActivity(intent);
                         }
                         else {

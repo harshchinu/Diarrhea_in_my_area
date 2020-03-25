@@ -17,7 +17,7 @@
         <activity android:name=".goverment_login"></activity>
         <activity android:name=".NavigationActivity"
             />
-        <activity android:name=".HospialMain" />
+        <activity android:name=".HospitalMain" />
         <activity android:name=".Hospital_login" />
         <activity android:name=".MainActivity">
 

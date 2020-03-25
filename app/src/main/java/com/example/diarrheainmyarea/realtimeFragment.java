@@ -147,7 +147,6 @@ public class realtimeFragment extends Fragment {
                         .title("Captain America")).setTag(2);
             }
         });
-
         return  rootView;
     }
 

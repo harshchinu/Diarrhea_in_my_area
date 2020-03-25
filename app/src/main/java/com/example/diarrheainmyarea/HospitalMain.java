@@ -3,9 +3,13 @@ package com.example.diarrheainmyarea;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -16,25 +20,74 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class HospialMain extends AppCompatActivity {
+public class HospitalMain extends AppCompatActivity {
 
     private Spinner diseasespinner,localityspinner;
     private DatabaseReference mDatabase;
     private ProgressBar progressBar;
+    private EditText editDate;
+    private Calendar calendar;
+    private int year, month, day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hospial_main);
+        setContentView(R.layout.activity_hospital_main);
 
+        editDate  = findViewById(R.id.edtDate);
         diseasespinner=(Spinner)findViewById(R.id.diseases_spinner);
         localityspinner=(Spinner)findViewById(R.id.locality_spinner);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
+
+        editDate.setOnClickListener(dateClickListener);
+
         diseasespinnerfill();
         localityspinnerfill();
+    }
+
+    private View.OnClickListener dateClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            showDialog(999);
+            showDate(year, month+1, day);
+        }
+    };
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        // TODO Auto-generated method stub
+        if (id == 999) {
+            return new DatePickerDialog(this,
+                    myDateListener, year, month, day);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new
+            DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker arg0,
+                                      int arg1, int arg2, int arg3) {
+                    // TODO Auto-generated method stub
+                    // arg1 = year
+                    // arg2 = month
+                    // arg3 = day
+                    showDate(arg1, arg2+1, arg3);
+                }
+            };
+
+    private void showDate(int year, int month, int day) {
+        editDate.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
     }
 
     private void localityspinnerfill() {
@@ -48,7 +101,7 @@ public class HospialMain extends AppCompatActivity {
                     String name = dataSnapshot1.getValue(String.class);
                     titleList.add(name);
                 }
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HospialMain.this, android.R.layout.simple_spinner_item, titleList);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HospitalMain.this, android.R.layout.simple_spinner_item, titleList);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 localityspinner.setAdapter(arrayAdapter);
 
@@ -73,7 +126,7 @@ public class HospialMain extends AppCompatActivity {
                     String name = dataSnapshot1.getValue(String.class);
                     titleList.add(name);
                 }
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HospialMain.this, android.R.layout.simple_spinner_item, titleList);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HospitalMain.this, android.R.layout.simple_spinner_item, titleList);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 diseasespinner.setAdapter(arrayAdapter);
                 progressBar.setVisibility(View.GONE);
