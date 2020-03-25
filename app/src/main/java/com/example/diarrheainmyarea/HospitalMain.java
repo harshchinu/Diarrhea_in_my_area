@@ -70,7 +70,7 @@ public class HospitalMain extends AppCompatActivity {
     private void submitdata() {
             DatabaseReference dbcase = FirebaseDatabase.getInstance().getReference("Case");
 
-            String date = editDate.getText().toString();
+            final String date = editDate.getText().toString();
             final String disease = diseasespinner.getSelectedItem().toString();
             String location = localityspinner.getSelectedItem().toString();
             String age = AgeText.getText().toString();
@@ -79,7 +79,7 @@ public class HospitalMain extends AppCompatActivity {
             radioButton=findViewById(selectedid);
             String gender = radioButton.getText().toString();
 
-            cases cases = new cases(date,disease,location,age,gender);
+            final cases cases = new cases(date,disease,location,age,gender);
             dbcase.push().setValue(cases);
             progressBar.setVisibility(View.GONE);
 
@@ -106,7 +106,7 @@ public class HospitalMain extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     int count= Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
-                    System.out.println(count);
+
                     count++;
                     dbdate.setValue(count);
                 }
@@ -121,6 +121,30 @@ public class HospitalMain extends AppCompatActivity {
 
             }
         });
+
+        final DatabaseReference dbdatetotalcount = FirebaseDatabase.getInstance().getReference("Date").child(date);
+        dbdatetotalcount.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int total=0;
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    String totalcount = String.valueOf(ds.getValue());
+                    total+=Integer.parseInt(totalcount);
+
+                   // dbdatetotalcount.child(date).setValue(count);
+
+                }
+                total+=1;
+                dbdatetotalcount.child("totalcount").setValue(total);
+                System.out.println(total);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
       final DatabaseReference abdiseasecountareawise = FirebaseDatabase.getInstance().getReference("Area/Surat").child(location).child(disease);
             abdiseasecountareawise.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -144,6 +168,8 @@ public class HospitalMain extends AppCompatActivity {
 
                 }
             });
+
+
 
     }
 
@@ -219,7 +245,7 @@ public class HospitalMain extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final List<String> titleList = new ArrayList<String>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    //System.out.println(dataSnapshot1.getValue());
+
                     String name = dataSnapshot1.getValue(String.class);
                     titleList.add(name);
                 }
