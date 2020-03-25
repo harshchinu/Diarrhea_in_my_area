@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="10dp"
     tools:context=".goverment_login">
 
     <TextView
