@@ -86,13 +86,31 @@ public class realtimeFragment extends Fragment {
                     public boolean onMarkerClick(Marker marker) {
                         int position =(int)(marker.getTag());
                         if(position==0){
-                            Toast.makeText(getContext(),"You clicked Spiderman",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(),"You clicked Spiderman",Toast.LENGTH_SHORT).show();
+                            Bottom_Sheet bs=new Bottom_Sheet();
+                            String str1="spiderman";
+                            Bundle b1=new Bundle();
+                            b1.putString("title",str1);
+                            bs.setArguments(b1);
+                            bs.show(getChildFragmentManager(),"something");
                         }
                         if(position==1){
-                            Toast.makeText(getContext(),"You clicked IronMan",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(),"You clicked IronMan",Toast.LENGTH_SHORT).show();
+                            Bottom_Sheet bs=new Bottom_Sheet();
+                            String str1="ironman";
+                            Bundle b1=new Bundle();
+                            b1.putString("title",str1);
+                            bs.setArguments(b1);
+                            bs.show(getChildFragmentManager(),"something");
                         }
                         if(position==2) {
-                            Toast.makeText(getContext(), "You clicked America", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(), "You clicked America", Toast.LENGTH_SHORT).show();
+                            Bottom_Sheet bs=new Bottom_Sheet();
+                            String str1="captain america";
+                            Bundle b1=new Bundle();
+                            b1.putString("title",str1);
+                            bs.setArguments(b1);
+                            bs.show(getChildFragmentManager(),"something");
                         }
                         return false;
                     }

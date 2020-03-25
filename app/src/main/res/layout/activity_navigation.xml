@@ -9,11 +9,12 @@
     <fragment
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/navigationbar"
+        android:layout_width="413dp"
+        android:layout_height="664dp"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_res" />
+        app:layout_constraintBottom_toTopOf="@id/navigationbar"
+        app:navGraph="@navigation/nav_res"
+        tools:layout_editor_absoluteX="-2dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
