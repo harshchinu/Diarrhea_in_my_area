@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -62,45 +64,72 @@ public class realtimeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_realtime, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.frg);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
+                int zoomin=10;
                 googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 googleMap.clear();
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        int position =(int)(marker.getTag());
+                        if(position==0){
+                            Toast.makeText(getContext(),"You clicked Spiderman",Toast.LENGTH_SHORT).show();
+                        }
+                        if(position==1){
+                            Toast.makeText(getContext(),"You clicked IronMan",Toast.LENGTH_SHORT).show();
+                        }
+                        if(position==2) {
+                            Toast.makeText(getContext(), "You clicked America", Toast.LENGTH_SHORT).show();
+                        }
+                        return false;
+                    }
+                });
 
 
-                CameraPosition googlePlex = CameraPosition.builder()
-                        .target(new LatLng(37.4219999,-122.0862462))
-                        .zoom(10)
-                        .bearing(0)
-                        .tilt(45)
-                        .build();
+                    CameraPosition googlePlex = CameraPosition.builder()
+                            .target(new LatLng(37.4219999,-122.0862462))
+                            .zoom(zoomin)
+                            .bearing(0)
+                            .tilt(45)
+                            .build();
+
+
 
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(googlePlex));
 
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(37.4219999, -122.0862462))
-                        .title("Spider Man"));
+                        .title("Spider Man")).setTag(0);
+
 
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(37.4629101,-122.2449094))
                         .title("Iron Man")
-                        .snippet("His Talent : Plenty of money"));
+                        .snippet("His Talent : Plenty of money")
+
+                ).setTag(1);
 
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(37.3092293,-122.1136845))
-                        .title("Captain America"));
+                        .title("Captain America")).setTag(2);
             }
         });
 
         return  rootView;
     }
+
+
 }
