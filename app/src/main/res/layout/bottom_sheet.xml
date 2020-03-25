@@ -6,12 +6,28 @@
     android:layout_gravity="center">
 
     <TextView
-        android:id="@+id/tv1"
+        android:id="@+id/areaname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="30dp"
-        android:paddingBottom="200dp"
+
+        />
+    <TextView
+        android:id="@+id/areacount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="30dp"
+
+        />
+    <TextView
+        android:id="@+id/citycount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="30dp"
+
 
         />
 

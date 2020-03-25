@@ -112,36 +112,40 @@ public class realtimeFragment extends Fragment implements AdapterView.OnItemSele
 
                 googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        int position =(int)(marker.getTag());
-                        if(position==0){
-                            //Toast.makeText(getContext(),"You clicked Spiderman",Toast.LENGTH_SHORT).show();
-                            Bottom_Sheet bs=new Bottom_Sheet();
-                            String str1="spiderman";
-                            Bundle b1=new Bundle();
-                            b1.putString("title",str1);
-                            bs.setArguments(b1);
-                            bs.show(getChildFragmentManager(),"something");
-                        }
-                        if(position==1){
-                            //Toast.makeText(getContext(),"You clicked IronMan",Toast.LENGTH_SHORT).show();
-                            Bottom_Sheet bs=new Bottom_Sheet();
-                            String str1="ironman";
-                            Bundle b1=new Bundle();
-                            b1.putString("title",str1);
-                            bs.setArguments(b1);
-                            bs.show(getChildFragmentManager(),"something");
-                        }
-                        if(position==2) {
-                            //Toast.makeText(getContext(), "You clicked America", Toast.LENGTH_SHORT).show();
-                            Bottom_Sheet bs=new Bottom_Sheet();
-                            String str1="captain america";
-                            Bundle b1=new Bundle();
-                            b1.putString("title",str1);
-                            bs.setArguments(b1);
-                            bs.show(getChildFragmentManager(),"something");
-                        }
-                        return false;
+                    public boolean onMarkerClick(final Marker marker) {
+
+
+                        final DatabaseReference dbareacount = FirebaseDatabase.getInstance().getReference("Area/Surat");
+                        final DatabaseReference Dateandcount = FirebaseDatabase.getInstance().getReference("Date");
+                        dbareacount.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                                    String position =(String)(marker.getTag());
+                                    if (position.equals(ds.getKey())){
+                                        //Toast.makeText(getContext(),"You clicked Spiderman",Toast.LENGTH_SHORT).show();
+                                        Bottom_Sheet bs = new Bottom_Sheet();
+                                        String str1 = ds.getKey();
+                                        String str2 = String.valueOf(ds.child("NumberOfTotalCases").getValue());
+                                        String str3 = Dateandcount.getKey();
+                                        Bundle b1 = new Bundle();
+                                        b1.putString("title", str1);
+                                        b1.putString("numberofcasesinarea",str2);
+                                        b1.putString("date",str3);
+                                        bs.setArguments(b1);
+                                        bs.show(getChildFragmentManager(), "something");
+                                    }
+
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+
+                        });
+                          return false;
                     }
                 });
 
@@ -168,7 +172,7 @@ public class realtimeFragment extends Fragment implements AdapterView.OnItemSele
                             String loc[] =location.split(",");
                             googleMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(Double.parseDouble(loc[0]), Double.parseDouble(loc[1])))
-                                    .title(ds.getKey())).setTag(0);
+                                    .title(ds.getKey())).setTag(ds.getKey());
                         }
                     }
 
