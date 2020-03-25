@@ -64,7 +64,7 @@ public class HospitalMain extends AppCompatActivity {
         editDate.setOnClickListener(dateClickListener);
 
         diseasespinnerfill();
-        //localityspinnerfill();
+        localityspinnerfill();
     }
 
     private void submitdata() {
@@ -79,8 +79,8 @@ public class HospitalMain extends AppCompatActivity {
             radioButton=findViewById(selectedid);
             String gender = radioButton.getText().toString();
 
-           cases cases = new cases(date,disease,location,age,gender);
-           dbcase.push().setValue(cases);
+            cases cases = new cases(date,disease,location,age,gender);
+            dbcase.push().setValue(cases);
             progressBar.setVisibility(View.GONE);
 
         final DatabaseReference dbareacount = FirebaseDatabase.getInstance().getReference("Area/Surat").child(location).child("NumberOfTotalCases");
@@ -104,7 +104,7 @@ public class HospitalMain extends AppCompatActivity {
         dbdate.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() == true) {
+                if(dataSnapshot.exists()) {
                     int count= Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
                     System.out.println(count);
                     count++;
@@ -126,7 +126,7 @@ public class HospitalMain extends AppCompatActivity {
             abdiseasecountareawise.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists() == true) {
+                    if(dataSnapshot.exists()) {
                         int count = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
                         count++;
                         abdiseasecountareawise.setValue(count);
