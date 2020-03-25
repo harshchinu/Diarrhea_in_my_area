@@ -8,9 +8,12 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,9 +31,13 @@ public class HospitalMain extends AppCompatActivity {
     private Spinner diseasespinner,localityspinner;
     private DatabaseReference mDatabase;
     private ProgressBar progressBar;
-    private EditText editDate;
+    private Button msubmit;
+    private EditText editDate,AgeText;
     private Calendar calendar;
     private int year, month, day;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +49,102 @@ public class HospitalMain extends AppCompatActivity {
         localityspinner=(Spinner)findViewById(R.id.locality_spinner);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
+        msubmit = (Button)findViewById(R.id.submit);
+        AgeText = findViewById(R.id.edtAge);
+        radioGroup = findViewById(R.id.rdbGroup);
+
+        msubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                submitdata();
+            }
+        });
 
         editDate.setOnClickListener(dateClickListener);
 
         diseasespinnerfill();
         localityspinnerfill();
+    }
+
+    private void submitdata() {
+            DatabaseReference dbcase = FirebaseDatabase.getInstance().getReference("Case");
+
+            String date = editDate.getText().toString();
+            final String disease = diseasespinner.getSelectedItem().toString();
+            String location = localityspinner.getSelectedItem().toString();
+            String age = AgeText.getText().toString();
+
+            int selectedid = radioGroup.getCheckedRadioButtonId();
+            radioButton=findViewById(selectedid);
+            String gender = radioButton.getText().toString();
+
+           // cases cases = new cases(date,disease,location,age,gender);
+         //   dbcase.push().setValue(cases);
+            progressBar.setVisibility(View.GONE);
+
+        final DatabaseReference dbareacount = FirebaseDatabase.getInstance().getReference("Area/Surat").child(location).child("NumberOfTotalCases");
+        dbareacount.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int count = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                count++;
+                dbareacount.setValue(count);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+        final DatabaseReference dbdate = FirebaseDatabase.getInstance().getReference("Date").child(date).child(disease);
+        dbdate.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists() == true) {
+                    int count= Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                    System.out.println(count);
+                    count++;
+                    dbdate.setValue(count);
+                }
+                else{
+
+                    dbdate.setValue(1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+      final DatabaseReference abdiseasecountareawise = FirebaseDatabase.getInstance().getReference("Area/Surat").child(location).child(disease);
+            abdiseasecountareawise.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists() == true) {
+                        int count = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                        count++;
+                        abdiseasecountareawise.setValue(count);
+
+                    }
+                    else{
+                        abdiseasecountareawise.setValue(1);
+
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
     }
 
     private View.OnClickListener dateClickListener = new View.OnClickListener() {
@@ -86,19 +184,18 @@ public class HospitalMain extends AppCompatActivity {
             };
 
     private void showDate(int year, int month, int day) {
-        editDate.setText(new StringBuilder().append(day).append("/")
-                .append(month).append("/").append(year));
+        editDate.setText(new StringBuilder().append(day).append("-")
+                .append(month).append("-").append(year));
     }
 
     private void localityspinnerfill() {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Area");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Area/Surat");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final List<String> titleList = new ArrayList<String>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    System.out.println(dataSnapshot1.getValue());
-                    String name = dataSnapshot1.getValue(String.class);
+                    String name = dataSnapshot1.getKey();
                     titleList.add(name);
                 }
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(HospitalMain.this, android.R.layout.simple_spinner_item, titleList);
@@ -122,7 +219,7 @@ public class HospitalMain extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final List<String> titleList = new ArrayList<String>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                    System.out.println(dataSnapshot1.getValue());
+                    //System.out.println(dataSnapshot1.getValue());
                     String name = dataSnapshot1.getValue(String.class);
                     titleList.add(name);
                 }

@@ -16,6 +16,7 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        getSupportActionBar().hide();
         bnv=findViewById(R.id.navigationbar);
         AppBarConfiguration abc=new AppBarConfiguration.Builder(
                 R.id.realtimeFragment,R.id.statisticalFragment

@@ -16,6 +16,7 @@
         app:navGraph="@navigation/nav_res"
         tools:layout_editor_absoluteX="-2dp" />
 
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="70dp"
