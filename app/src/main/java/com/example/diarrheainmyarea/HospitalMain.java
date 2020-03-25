@@ -64,7 +64,7 @@ public class HospitalMain extends AppCompatActivity {
         editDate.setOnClickListener(dateClickListener);
 
         diseasespinnerfill();
-        localityspinnerfill();
+        //localityspinnerfill();
     }
 
     private void submitdata() {
