@@ -1,7 +1,10 @@
 package com.example.diarrheainmyarea;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -19,6 +22,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -73,14 +83,14 @@ public class realtimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_realtime, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.frg);
 
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onMapReady(GoogleMap googleMap) {
+            public void onMapReady(final GoogleMap googleMap) {
                 int zoomin=10;
                 googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 googleMap.clear();
@@ -122,7 +132,7 @@ public class realtimeFragment extends Fragment {
 
 
                     CameraPosition googlePlex = CameraPosition.builder()
-                            .target(new LatLng(37.4219999,-122.0862462))
+                            .target(new LatLng(21.172327, 72.788646))
                             .zoom(zoomin)
                             .bearing(0)
                             .tilt(45)
@@ -132,22 +142,27 @@ public class realtimeFragment extends Fragment {
 
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(googlePlex));
 
-                googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(37.4219999, -122.0862462))
-                        .title("Spider Man")).setTag(0);
+                final DatabaseReference dbareacount = FirebaseDatabase.getInstance().getReference("Area/Surat");
+                dbareacount.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                           for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                           // System.out.println(ds.getKey());
+                            String location =ds.child("Location").getValue(String.class);
+                            String loc[] =location.split(",");
+                            googleMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(Double.parseDouble(loc[0]), Double.parseDouble(loc[1])))
+                                    .title(ds.getKey())).setTag(0);
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(37.4629101,-122.2449094))
-                        .title("Iron Man")
-                        .snippet("His Talent : Plenty of money")
-
-                ).setTag(1);
-
-                googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(37.3092293,-122.1136845))
-                        .title("Captain America")).setTag(2);
-            }
+                    }
+                });
+                }
         });
         return  rootView;
     }

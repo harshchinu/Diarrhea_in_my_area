@@ -79,8 +79,8 @@ public class HospitalMain extends AppCompatActivity {
             radioButton=findViewById(selectedid);
             String gender = radioButton.getText().toString();
 
-           // cases cases = new cases(date,disease,location,age,gender);
-         //   dbcase.push().setValue(cases);
+           cases cases = new cases(date,disease,location,age,gender);
+           dbcase.push().setValue(cases);
             progressBar.setVisibility(View.GONE);
 
         final DatabaseReference dbareacount = FirebaseDatabase.getInstance().getReference("Area/Surat").child(location).child("NumberOfTotalCases");
