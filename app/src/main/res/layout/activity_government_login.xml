@@ -9,22 +9,32 @@
     android:padding="10dp"
     tools:context=".government_login">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Account login"/>
-    <EditText
-        android:id="@+id/email"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="goverment@gmail.com" />
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginTop="15dp">
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="adajanclinic@gmail.com"
+            android:hint="Account login"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/password"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="government"
-        android:inputType="textPassword" />
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginTop="15dp">
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="adajan"
+            android:hint="Password"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login"
