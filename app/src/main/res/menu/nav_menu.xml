@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/realtimeFragment"
-        android:title="realtime_data" />
+        android:title="realtime data"
+        android:icon="@drawable/location_24dp" />
     <item
         android:id="@+id/statisticalFragment"
-        android:title="statistical_data" />
+        android:title="statistical data"
+        android:icon="@drawable/bar_chart_24dp"/>
 </menu>
