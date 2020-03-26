@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,6 +69,7 @@ public class HospitalMain extends AppCompatActivity {
     }
 
     private void submitdata() {
+        progressBar.setVisibility(View.VISIBLE);
             DatabaseReference dbcase = FirebaseDatabase.getInstance().getReference("Case");
 
             final String date = editDate.getText().toString();
@@ -176,6 +178,8 @@ public class HospitalMain extends AppCompatActivity {
                 }
             });
 
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(getBaseContext(), "Data Submitted Successfully", Toast.LENGTH_SHORT).show();
 
 
     }
