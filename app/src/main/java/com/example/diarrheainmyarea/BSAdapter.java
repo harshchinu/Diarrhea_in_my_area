@@ -9,13 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BSAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
-    String str1[];
-    public BSAdapter(Context context,String str1[]){
+    List<String> name = new ArrayList<>();
+    List<String> name1 = new ArrayList<>();
+    public BSAdapter(Context context, List<String> name,List<String> name1){
         this.context=context;
-        this.str1=str1;
+        this.name=name;
+        this.name1=name1;
 
     }
     @NonNull
@@ -29,19 +34,23 @@ public class BSAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((bsdata)holder).tv1.setText(str1[position]);
+        ((bsdata)holder).tv1.setText(name.get(position));
+        ((bsdata)holder).tv2.setText(name1.get(position));
     }
+
 
     @Override
     public int getItemCount() {
-        return str1.length;
+        return name.size();
     }
 
     public class bsdata extends RecyclerView.ViewHolder {
-        TextView tv1;
+        TextView tv1,tv2;
         public bsdata(@NonNull View itemView) {
             super(itemView);
             tv1=itemView.findViewById(R.id.tv1);
+            tv2=itemView.findViewById(R.id.tv2);
+
         }
     }
 }

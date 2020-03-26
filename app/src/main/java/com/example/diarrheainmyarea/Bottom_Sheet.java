@@ -13,11 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Bottom_Sheet extends BottomSheetDialogFragment {
-    
-    String item[]={"item1","item2","item3","item4"};
+
+
     TextView title,areacount,citycount;
     RecyclerView recyclerView;
+    HashMap<String,String> dieases;
+    List<String> ab,ac;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,12 +31,17 @@ public class Bottom_Sheet extends BottomSheetDialogFragment {
         title=view.findViewById(R.id.areaname);
         areacount=view.findViewById(R.id.areacount);
         citycount=view.findViewById(R.id.citycount);
-        title.setText(this.getArguments().getString("title"));
-        areacount.setText(this.getArguments().getString("numberofcasesinarea"));
-        citycount.setText(this.getArguments().getString("date"));
+        title.setText("Area Name :" +this.getArguments().getString("title"));
+        areacount.setText("Area Count :"+this.getArguments().getString("numberofcasesinarea"));
+        citycount.setText("City Count :"+this.getArguments().getString("totalcount"));
+
+        ab=(ArrayList<String>)getArguments().getSerializable("map1");
+        ac =(ArrayList<String>)getArguments().getSerializable("map2");
+
+
             recyclerView=view.findViewById(R.id.bsrecycler);
             recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-            recyclerView.setAdapter(new BSAdapter(this.getContext(),item));
+            recyclerView.setAdapter(new BSAdapter(this.getContext(),ab,ac));
 
         return view;
     }
