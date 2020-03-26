@@ -34,7 +34,7 @@ public class BSAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((bsdata)holder).tv1.setText(name.get(position));
+        ((bsdata)holder).tv1.setText(name.get(position)+":");
         ((bsdata)holder).tv2.setText(name1.get(position));
     }
 

@@ -163,7 +163,7 @@ public class statisticalFragment extends Fragment {
                     Column column = new Column(values);
                     column.setHasLabels(true);
                     columns.add(column);
-//                   Log.e("THE DATA",ds.child("Corona").getValue().toString());
+                   //Log.e("THE DATA",ds.child("Corona").getValue().toString());
                 }
                 setValues(columns,valuesOfX);
             }
