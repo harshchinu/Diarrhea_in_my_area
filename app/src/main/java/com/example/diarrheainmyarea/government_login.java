@@ -17,7 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class goverment_login extends AppCompatActivity {
+public class government_login extends AppCompatActivity {
 
     private EditText emailTV, passwordTV;
     private Button loginBtn;
@@ -28,7 +28,7 @@ public class goverment_login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goverment_login);
+        setContentView(R.layout.activity_government_login);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -66,7 +66,7 @@ public class goverment_login extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
 
-                            Intent intent = new Intent(goverment_login.this, NavigationActivity.class);
+                            Intent intent = new Intent(government_login.this, NavigationActivity.class);
                             startActivity(intent);
                         }
                         else {
