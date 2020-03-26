@@ -6,9 +6,23 @@
     tools:context=".statisticalFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello statistical fragment" />
+    <RelativeLayout
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RelLay">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/graphDiseaseSpinner"
+            android:layout_margin="20dp"
+            android:textAlignment="center"/>
+        <lecho.lib.hellocharts.view.ColumnChartView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/columnChartCorona"
+            android:layout_below="@id/graphDiseaseSpinner"
+            />
+    </RelativeLayout>
 
 </FrameLayout>
